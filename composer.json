@@ -1,0 +1,12 @@
+{
+  "name": "macseem/importer",
+  "description": "Universal Importer",
+  "minimum-stability": "stable",
+  "license": "GPLv3",
+  "authors": [
+    {
+      "name": "Max D.",
+      "email": "lugamax@gmail.com"
+    }
+  ]
+}
