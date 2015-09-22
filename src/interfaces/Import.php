@@ -1,9 +1,9 @@
 <?php
 
-namespace importer\interfaces;
+namespace Importer\interfaces;
 
-use importer\interfaces\base\GetErrors;
-use importer\interfaces\base\IsImported;
+use Importer\interfaces\base\GetErrors;
+use Importer\interfaces\base\IsImported;
 use interfaces\base\Init;
 
 interface Import extends GetErrors, IsImported, Init {

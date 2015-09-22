@@ -6,7 +6,7 @@
  * Time: 8:55 AM
  */
 
-namespace importer\interfaces;
+namespace Importer\interfaces;
 
 
 interface Offset {

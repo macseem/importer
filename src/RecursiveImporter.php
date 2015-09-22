@@ -1,12 +1,9 @@
 <?php
 
-namespace importer;
+namespace Importer;
 
-use importer\interfaces\Destination;
-use importer\interfaces\Import;
-use importer\interfaces\Offset;
-use importer\interfaces\RecursiveImport;
-use importer\interfaces\Source;
+use Importer\interfaces\Import;
+use Importer\interfaces\RecursiveImport;
 
 class RecursiveImporter implements RecursiveImport
 {

@@ -1,10 +1,10 @@
 <?php
 
-namespace importer\exceptions;
+namespace Importer\exceptions;
 
 /**
  * Class ReinitException is the class for inform the script about reinit needs
- * @package importer\exceptions
+ * @package Importer\exceptions
  **/
 class ReinitException extends \Exception
 {

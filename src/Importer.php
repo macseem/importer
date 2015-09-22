@@ -6,15 +6,15 @@
  * Time: 11:37 PM
  */
 
-namespace importer;
+namespace Importer;
 
 
-use importer\exceptions\ReinitException;
-use importer\interfaces\Import;
-use importer\interfaces\base\GetErrors;
-use importer\interfaces\Destination;
-use importer\interfaces\Offset;
-use importer\interfaces\Source;
+use Importer\exceptions\ReinitException;
+use Importer\interfaces\Import;
+use Importer\interfaces\base\GetErrors;
+use Importer\interfaces\Destination;
+use Importer\interfaces\Offset;
+use Importer\interfaces\Source;
 
 class Importer implements Import, GetErrors{
 

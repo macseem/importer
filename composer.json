@@ -8,5 +8,17 @@
       "name": "Max D.",
       "email": "lugamax@gmail.com"
     }
-  ]
+  ],
+  "autoload": [
+    {
+      "psr4": {
+        "Importer\\": "src/",
+        "Importer\\tests": "tests/"
+      }
+    }
+  ],
+  "require-dev": {
+    "phpunit/phpunit": "4.8.*",
+    "phpunit/dbunit": ">=1.2"
+  }
 }
