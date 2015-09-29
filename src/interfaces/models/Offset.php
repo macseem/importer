@@ -12,10 +12,15 @@ namespace Importer\interfaces;
 interface Offset {
 
     /**
-      * @return $offset
+     * @param mixed $default
+     * @return $offset
      **/
-    public function get();
+    public function get($default = 0);
 
+    /**
+     * @param $offset
+     * @return bool
+     */
     public function set($offset);
 
 

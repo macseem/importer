@@ -9,9 +9,19 @@
 namespace Importer\models\sources;
 
 
+use Importer\exceptions\validation\BadOffsetException;
 use Importer\interfaces\Source;
 
 class DataArray implements Source{
+
+    private $baseArray;
+    private $arrayIterator;
+
+    public function __construct(array $array)
+    {
+        $this->baseArray = $array;
+        $this->arrayIterator = new \ArrayIterator($array);
+    }
 
     /**
      * (PHP 5 &gt;= 5.0.0)<br/>
@@ -21,7 +31,7 @@ class DataArray implements Source{
      */
     public function current()
     {
-        // TODO: Implement current() method.
+        return $this->arrayIterator->current();
     }
 
     /**
@@ -32,7 +42,7 @@ class DataArray implements Source{
      */
     public function next()
     {
-        // TODO: Implement next() method.
+        $this->arrayIterator->next();
     }
 
     /**
@@ -43,7 +53,7 @@ class DataArray implements Source{
      */
     public function key()
     {
-        // TODO: Implement key() method.
+        $this->arrayIterator->key();
     }
 
     /**
@@ -55,7 +65,7 @@ class DataArray implements Source{
      */
     public function valid()
     {
-        // TODO: Implement valid() method.
+        $this->arrayIterator->valid();
     }
 
     /**
@@ -66,7 +76,7 @@ class DataArray implements Source{
      */
     public function rewind()
     {
-        // TODO: Implement rewind() method.
+        $this->arrayIterator->rewind();
     }
 
     /**
@@ -80,16 +90,27 @@ class DataArray implements Source{
      */
     public function seek($position)
     {
-        // TODO: Implement seek() method.
+        $this->arrayIterator->seek($position);
     }
 
     public function setOffset($offset)
     {
-        // TODO: Implement setOffset() method.
+        $newIterator = new \ArrayIterator($this->baseArray);
+        while($newIterator->key() != $offset && $newIterator->valid()){
+            $newIterator->next();
+        }
+        if(!$newIterator->valid())
+            throw new BadOffsetException("Offset is not valid", 550);
+        if($newIterator->key() != $offset)
+            throw new \Exception("Something went wrong", 550);
+        $this->arrayIterator = $newIterator;
+        return true;
     }
 
     public function nextOne()
     {
-        // TODO: Implement nextOne() method.
+        $this->arrayIterator->next();
+        return $this->arrayIterator->current();
     }
+
 }
