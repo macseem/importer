@@ -80,31 +80,19 @@ class DataArray implements Source{
     }
 
     /**
-     * (PHP 5 &gt;= 5.1.0)<br/>
-     * Seeks to a position
-     * @link http://php.net/manual/en/seekableiterator.seek.php
-     * @param int $position <p>
-     * The position to seek to.
-     * </p>
-     * @return void
+     * {@inheritdoc}
      */
-    public function seek($position)
-    {
-        $this->arrayIterator->seek($position);
-    }
-
-    public function setOffset($offset)
+    public function seek($offset)
     {
         $newIterator = new \ArrayIterator($this->baseArray);
         while($newIterator->key() != $offset && $newIterator->valid()){
             $newIterator->next();
         }
         if(!$newIterator->valid())
-            throw new BadOffsetException("Offset is not valid", 550);
+            throw new BadOffsetException("OffsetProvider is not valid", 550);
         if($newIterator->key() != $offset)
             throw new \Exception("Something went wrong", 550);
         $this->arrayIterator = $newIterator;
-        return true;
     }
 
     public function nextOne()

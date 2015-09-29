@@ -9,7 +9,7 @@
 namespace Importer\interfaces;
 
 
-interface Offset {
+interface OffsetProvider {
 
     /**
      * @param mixed $default
@@ -22,6 +22,5 @@ interface Offset {
      * @return bool
      */
     public function set($offset);
-
 
 }

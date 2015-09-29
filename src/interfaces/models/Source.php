@@ -11,8 +11,4 @@ namespace Importer\interfaces;
 
 interface Source extends \SeekableIterator{
 
-    public function setOffset($offset);
-
-    public function nextOne();
-
 }

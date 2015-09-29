@@ -10,10 +10,9 @@ interface Import extends GetErrors, IsImported, Init {
 
     /**
      * @param callable $callable
-     * @param int $offset
      * @param int $count
      * @return bool
      */
-    public function import( $offset = -1, $count = 1, $callable = null);
+    public function import( $count = 1, $callable = null);
 
 }

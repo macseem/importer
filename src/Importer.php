@@ -13,14 +13,14 @@ use Importer\exceptions\ReinitException;
 use Importer\interfaces\Import;
 use Importer\interfaces\base\GetErrors;
 use Importer\interfaces\Destination;
-use Importer\interfaces\Offset;
+use Importer\interfaces\OffsetProvider;
 use Importer\interfaces\Source;
 
 class Importer implements Import, GetErrors{
 
     private $source;
     private $destination;
-    private $offset;
+    private $offsetModel;
     private $errors;
     private $imported;
 
@@ -29,13 +29,13 @@ class Importer implements Import, GetErrors{
     /**
      * @param Source $source
      * @param Destination $destination
-     * @param Offset $offset
+     * @param OffsetProvider $offsetModel
      */
-    public function __construct(Source $source, Destination $destination, Offset $offset)
+    public function __construct(Source $source, Destination $destination, OffsetProvider $offsetModel)
     {
         $this->source = $source;
         $this->destination = $destination;
-        $this->offset = $offset;
+        $this->offsetModel = $offsetModel;
         $this->init();
         $this->needToReinit = false;
     }
@@ -44,6 +44,7 @@ class Importer implements Import, GetErrors{
     {
         $this->imported = false;
         $this->errors = [];
+        $this->getSource()->setOffset($this->getOffsetProvider()->get());
     }
 
     public function getSource()
@@ -56,9 +57,9 @@ class Importer implements Import, GetErrors{
         return $this->destination;
     }
 
-    public function getOffset()
+    public function getOffsetProvider()
     {
-        return $this->offset;
+        return $this->offsetModel;
     }
 
     public function getErrors()
@@ -69,21 +70,17 @@ class Importer implements Import, GetErrors{
     /**
      * {@inheritdoc}
      */
-    public function import($offset = -1, $count = 1, $callable = null)
+    public function import($count = 1, $callable = null)
     {
 
         if($this->needToReinit)
             throw new ReinitException("I have old data. I need to reinit", 550);
-        
-        if($offset == -1){
-            $offset = $this->getOffset()->get();
-        } else
-            $this->getSource()->setOffset($offset);
-            
+
         for($i = 0; $i < $count; $i++){
             try{
-                $data = $this->getSource()->nextOne();
-                $result = $this->getDestination()->create($data);
+                $this->getSource()->next();
+                $result = $this->getDestination()->create(
+                    $this->getSource()->current());
                 if(!$callable || !is_callable($callable))
                     continue;
                 call_user_func($callable,$result);
@@ -91,7 +88,7 @@ class Importer implements Import, GetErrors{
                 $this->errors[] = $e;
             }
         }
-        $this->getOffset()->set($offset + $count);
+        $this->getOffsetProvider()->set($this->getSource()->key());
         $this->imported = empty($this->errors);
         $this->needToReinit = true;
     }

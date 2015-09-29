@@ -82,14 +82,4 @@ class XmlFile implements Source{
     {
         // TODO: Implement seek() method.
     }
-
-    public function setOffset($offset)
-    {
-        // TODO: Implement setOffset() method.
-    }
-
-    public function nextOne()
-    {
-        // TODO: Implement nextOne() method.
-    }
 }

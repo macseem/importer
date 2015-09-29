@@ -9,6 +9,6 @@
 namespace Importer\exceptions;
 
 
-class FileNotExistsException extends \Exception{
+class FileDoesNotExistException extends \Exception{
 
 }

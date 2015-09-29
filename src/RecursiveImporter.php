@@ -35,7 +35,7 @@ class RecursiveImporter implements RecursiveImport
      */
     public function recursiveImport()
     {
-        while($this->importer->import(-1, $this->count, $this->callable)){
+        while($this->importer->import($this->count, $this->callable)){
             $this->errors += $this->importer->getErrors();
 
             if($this->delay)
