@@ -1,5 +1,5 @@
 {
-  "name": "macseem/importer",
+  "name": "macseem/MIM",
   "description": "Universal Importer",
   "minimum-stability": "stable",
   "license": "GPLv3",
@@ -12,8 +12,8 @@
   "autoload": [
     {
       "psr4": {
-        "Importer\\": "src/",
-        "Importer\\tests": "tests/"
+        "MIM\\": "src/",
+        "MIM\\tests": "tests/"
       }
     }
   ],

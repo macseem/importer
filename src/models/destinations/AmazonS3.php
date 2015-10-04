@@ -6,10 +6,10 @@
  * Time: 11:38 PM
  */
 
-namespace Importer\models\destinations;
+namespace MIM\models\destinations;
 
 
-use Importer\interfaces\Destination;
+use MIM\interfaces\Destination;
 
 class AmazonS3 implements Destination {
 

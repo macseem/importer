@@ -6,15 +6,15 @@
  * Time: 11:37 PM
  */
 
-namespace Importer;
+namespace MIM;
 
 
-use Importer\exceptions\ReinitException;
-use Importer\interfaces\Import;
-use Importer\interfaces\base\GetErrors;
-use Importer\interfaces\Destination;
-use Importer\interfaces\OffsetProvider;
-use Importer\interfaces\Source;
+use MIM\exceptions\ReinitException;
+use MIM\interfaces\Import;
+use MIM\interfaces\base\GetErrors;
+use MIM\interfaces\Destination;
+use MIM\interfaces\OffsetProvider;
+use MIM\interfaces\Source;
 
 class Importer implements Import, GetErrors{
 
@@ -44,7 +44,7 @@ class Importer implements Import, GetErrors{
     {
         $this->imported = false;
         $this->errors = [];
-        $this->getSource()->setOffset($this->getOffsetProvider()->get());
+        $this->getSource()->seek($this->getOffsetProvider()->get());
     }
 
     public function getSource()

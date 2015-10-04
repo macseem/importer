@@ -1,9 +1,9 @@
 <?php
 
-namespace Importer;
+namespace MIM;
 
-use Importer\interfaces\Import;
-use Importer\interfaces\RecursiveImport;
+use MIM\interfaces\Import;
+use MIM\interfaces\RecursiveImport;
 
 class RecursiveImporter implements RecursiveImport
 {

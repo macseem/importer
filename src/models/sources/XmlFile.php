@@ -6,10 +6,10 @@
  * Time: 11:13 PM
  */
 
-namespace Importer\models\sources;
+namespace MIM\models\sources;
 
 
-use Importer\interfaces\Source;
+use MIM\interfaces\Source;
 
 class XmlFile implements Source{
 

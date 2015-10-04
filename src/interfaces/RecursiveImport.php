@@ -1,9 +1,9 @@
 <?php
 
-namespace Importer\interfaces;
+namespace MIM\interfaces;
 
-use Importer\interfaces\base\GetErrors;
-use Importer\interfaces\base\IsImported;
+use MIM\interfaces\base\GetErrors;
+use MIM\interfaces\base\IsImported;
 
 interface RecursiveImport extends GetErrors, IsImported {
 

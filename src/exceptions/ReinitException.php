@@ -1,6 +1,6 @@
 <?php
 
-namespace Importer\exceptions;
+namespace MIM\exceptions;
 
 /**
  * Class ReinitException is the class for inform the script about reinit needs

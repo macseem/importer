@@ -6,7 +6,7 @@
  * Time: 8:55 AM
  */
 
-namespace Importer\interfaces;
+namespace MIM\interfaces;
 
 
 interface OffsetProvider {

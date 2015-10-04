@@ -6,11 +6,11 @@
  * Time: 11:35 PM
  */
 
-namespace Importer\models\sources;
+namespace MIM\models\sources;
 
 
-use Importer\exceptions\validation\BadOffsetException;
-use Importer\interfaces\Source;
+use MIM\exceptions\validation\BadOffsetException;
+use MIM\interfaces\Source;
 
 class DataArray implements Source{
 

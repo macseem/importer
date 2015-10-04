@@ -1,6 +1,6 @@
 <?php
 
-namespace Importer\interfaces\base;
+namespace MIM\interfaces\base;
 
 interface GetErrors {
 

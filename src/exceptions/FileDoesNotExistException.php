@@ -6,7 +6,7 @@
  * Time: 12:01 AM
  */
 
-namespace Importer\exceptions;
+namespace MIM\exceptions;
 
 
 class FileDoesNotExistException extends \Exception{

@@ -6,12 +6,12 @@
  * Time: 11:38 PM
  */
 
-namespace Importer\models\destinations;
+namespace MIM\models\destinations;
 
 
-use Importer\exceptions\validation\EscapeException;
-use Importer\interfaces\base\DbConnection;
-use Importer\interfaces\Destination;
+use MIM\exceptions\validation\EscapeException;
+use MIM\interfaces\base\DbConnection;
+use MIM\interfaces\Destination;
 
 class Db implements Destination{
 

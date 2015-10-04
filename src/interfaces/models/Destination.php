@@ -6,7 +6,7 @@
  * Time: 12:01 AM
  */
 
-namespace Importer\interfaces;
+namespace MIM\interfaces;
 
 
 interface Destination {

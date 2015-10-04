@@ -6,7 +6,7 @@
  * Time: 11:54 PM
  */
 
-namespace Importer\exceptions\validation;
+namespace MIM\exceptions\validation;
 
 
 class EscapeException extends \Exception {

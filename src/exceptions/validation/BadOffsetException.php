@@ -6,7 +6,7 @@
  * Time: 10:06 PM
  */
 
-namespace Importer\exceptions\validation;
+namespace MIM\exceptions\validation;
 
 
 class BadOffsetException extends \Exception {

@@ -6,7 +6,7 @@
  * Time: 11:58 PM
  */
 
-namespace Importer\interfaces\base;
+namespace MIM\interfaces\base;
 
 
 interface DbConnection {

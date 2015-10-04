@@ -6,11 +6,11 @@
  * Time: 11:34 PM
  */
 
-namespace Importer\models\offsetProviders;
+namespace MIM\models\offsetProviders;
 
 
-use Importer\exceptions\FileDoesNotExistException;
-use Importer\interfaces\OffsetProvider;
+use MIM\exceptions\FileDoesNotExistException;
+use MIM\interfaces\OffsetProvider;
 
 /**
  * Class TmpFile
