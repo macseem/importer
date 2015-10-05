@@ -37,8 +37,14 @@ class TmpFile implements OffsetProvider{
     {
         if(!empty($this->cache))
             return $this->cache;
+        if(!file_exists($this->file) && $this->set($default) !== false){
+            return $this->cache;
+        }
         $value = json_decode(file_get_contents($this->file), true);
-        if(NULL == $value && $this->set($default)){
+        if(json_last_error() == JSON_ERROR_NONE){
+            return $this->cache = $value;
+        }
+        if($this->set($default) === false){
             return $default;
         }
         return $this->cache;
@@ -49,7 +55,11 @@ class TmpFile implements OffsetProvider{
      */
     public function set($offset)
     {
-        $this->cache = false !== file_put_contents($this->file, json_encode($offset));
+        if (file_put_contents($this->file, json_encode($offset)) !== false){
+            $this->cache = $offset;
+            return $this->cache;
+        }
+        $this->cache = false;
         return $this->cache;
     }
 }
