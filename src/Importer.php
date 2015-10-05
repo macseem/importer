@@ -11,12 +11,11 @@ namespace MIM;
 
 use MIM\exceptions\ReinitException;
 use MIM\interfaces\Import;
-use MIM\interfaces\base\GetErrors;
 use MIM\interfaces\models\Destination;
 use MIM\interfaces\models\OffsetProvider;
 use MIM\interfaces\models\Source;
 
-class Importer implements Import, GetErrors{
+class Importer implements Import{
 
     private $source;
     private $destination;
