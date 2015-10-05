@@ -9,7 +9,7 @@
 namespace MIM\models\destinations;
 
 
-use MIM\interfaces\Destination;
+use MIM\interfaces\models\Destination;
 
 class AmazonS3 implements Destination {
 

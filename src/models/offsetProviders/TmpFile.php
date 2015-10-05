@@ -10,7 +10,7 @@ namespace MIM\models\offsetProviders;
 
 
 use MIM\exceptions\FileDoesNotExistException;
-use MIM\interfaces\OffsetProvider;
+use MIM\interfaces\models\OffsetProvider;
 
 /**
  * Class TmpFile

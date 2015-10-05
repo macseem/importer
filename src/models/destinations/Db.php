@@ -11,7 +11,7 @@ namespace MIM\models\destinations;
 
 use MIM\exceptions\validation\EscapeException;
 use MIM\interfaces\base\DbConnection;
-use MIM\interfaces\Destination;
+use MIM\interfaces\models\Destination;
 
 class Db implements Destination{
 

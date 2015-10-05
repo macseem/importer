@@ -9,7 +9,7 @@
 namespace MIM\models\sources;
 
 
-use MIM\interfaces\Source;
+use MIM\interfaces\models\Source;
 
 class XmlFile implements Source{
 

@@ -6,7 +6,7 @@
  * Time: 12:01 AM
  */
 
-namespace MIM\interfaces;
+namespace MIM\interfaces\models;
 
 
 interface Destination {

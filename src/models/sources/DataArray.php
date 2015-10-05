@@ -10,7 +10,7 @@ namespace MIM\models\sources;
 
 
 use MIM\exceptions\validation\BadOffsetException;
-use MIM\interfaces\Source;
+use MIM\interfaces\models\Source;
 
 class DataArray implements Source{
 

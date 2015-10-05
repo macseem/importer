@@ -6,7 +6,7 @@
  * Time: 5:50 PM
  */
 
-namespace MIM\interfaces;
+namespace MIM\interfaces\models;
 
 
 interface Source extends \SeekableIterator{
