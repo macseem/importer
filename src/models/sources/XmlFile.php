@@ -16,14 +16,12 @@ class XmlFile implements Source{
     /** @var  \ArrayIterator */
     private $iterator;
     private $file;
-    private $keyToIterate;
-    private $keyDepth;
+    private $xPath;
 
-    public function __construct($file, $keyToIterate, $keyDepth)
+    public function __construct($file, $xPath)
     {
         $this->file = $file;
-        $this->keyToIterate = $keyToIterate;
-        $this->keyDepth = $keyDepth;
+        $this->xPath = $xPath;
         $this->init();
     }
 
@@ -31,12 +29,8 @@ class XmlFile implements Source{
     {
         $contents = file_get_contents($this->file);
         $simpleXmlObject = new \SimpleXMLElement($contents);
-        for($i = 0; $i<$this->keyDepth; $i++){
-            $simpleXmlObject = $simpleXmlObject->children();
-        }
-        /** @var \SimpleXMLElement $simpleXmlObject */
-        $simpleXmlObject = $simpleXmlObject->{$this->keyToIterate};
-        $this->iterator = new \SimpleXMLIterator($simpleXmlObject->asXML());
+        $array = $simpleXmlObject->xpath($this->xPath);
+        $this->iterator = new \ArrayIterator($array);
     }
 
     /**
