@@ -4,7 +4,7 @@ namespace MIM\interfaces;
 
 use MIM\interfaces\base\GetErrors;
 use MIM\interfaces\base\IsImported;
-use interfaces\base\Init;
+use MIM\interfaces\base\Init;
 
 interface Import extends GetErrors, IsImported, Init {
 

@@ -6,7 +6,7 @@
  * Time: 8:49 PM
  */
 
-namespace interfaces\base;
+namespace MIM\interfaces\base;
 
 
 interface Init {
