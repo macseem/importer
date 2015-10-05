@@ -47,14 +47,7 @@ class XmlFile implements Source{
      */
     public function current()
     {
-        /** @var \SimpleXMLElement | \SimpleXMLElement[] $xmlCategory */
-        $xmlCategory = $this->iterator->current();
-        $data = [
-            'feed_id' => $xmlCategory['id']->__toString(),
-            'name' => $xmlCategory->__toString(),
-            'parent_feed_id' => $xmlCategory['parentId']->__toString()
-        ];
-        return $data;
+        return $this->iterator->current();
     }
 
     /**
