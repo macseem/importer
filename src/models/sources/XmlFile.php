@@ -13,6 +13,32 @@ use MIM\interfaces\Source;
 
 class XmlFile implements Source{
 
+    /** @var  \ArrayIterator */
+    private $iterator;
+    private $file;
+    private $keyToIterate;
+    private $keyDepth;
+
+    public function __construct($file, $keyToIterate, $keyDepth)
+    {
+        $this->file = $file;
+        $this->keyToIterate = $keyToIterate;
+        $this->keyDepth = $keyDepth;
+        $this->init();
+    }
+
+    protected function init()
+    {
+        $contents = file_get_contents($this->file);
+        $simpleXmlObject = new \SimpleXMLElement($contents);
+        for($i = 0; $i<$this->keyDepth; $i++){
+            $simpleXmlObject = $simpleXmlObject->children();
+        }
+        /** @var \SimpleXMLElement $simpleXmlObject */
+        $simpleXmlObject = $simpleXmlObject->$contents;
+        $this->iterator = new \SimpleXMLIterator($simpleXmlObject);
+    }
+
     /**
      * (PHP 5 &gt;= 5.0.0)<br/>
      * Return the current element
@@ -21,7 +47,14 @@ class XmlFile implements Source{
      */
     public function current()
     {
-        // TODO: Implement current() method.
+        /** @var \SimpleXMLElement | \SimpleXMLElement[] $xmlCategory */
+        $xmlCategory = $this->iterator->current();
+        $data = [
+            'feed_id' => $xmlCategory['id']->__toString(),
+            'name' => $xmlCategory->__toString(),
+            'parent_feed_id' => $xmlCategory['parentId']->__toString()
+        ];
+        return $data;
     }
 
     /**
@@ -32,7 +65,7 @@ class XmlFile implements Source{
      */
     public function next()
     {
-        // TODO: Implement next() method.
+        $this->iterator->next();
     }
 
     /**
@@ -43,7 +76,7 @@ class XmlFile implements Source{
      */
     public function key()
     {
-        // TODO: Implement key() method.
+        return $this->iterator->key();
     }
 
     /**
@@ -55,7 +88,7 @@ class XmlFile implements Source{
      */
     public function valid()
     {
-        // TODO: Implement valid() method.
+        return $this->iterator->valid();
     }
 
     /**
@@ -66,7 +99,7 @@ class XmlFile implements Source{
      */
     public function rewind()
     {
-        // TODO: Implement rewind() method.
+        $this->iterator->rewind();
     }
 
     /**
@@ -80,6 +113,6 @@ class XmlFile implements Source{
      */
     public function seek($position)
     {
-        // TODO: Implement seek() method.
+        $this->iterator->seek($position);
     }
 }
