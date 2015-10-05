@@ -35,7 +35,7 @@ class XmlFile implements Source{
             $simpleXmlObject = $simpleXmlObject->children();
         }
         /** @var \SimpleXMLElement $simpleXmlObject */
-        $simpleXmlObject = $simpleXmlObject->$contents;
+        $simpleXmlObject = $simpleXmlObject->{$this->keyToIterate};
         $this->iterator = new \SimpleXMLIterator($simpleXmlObject->asXML());
     }
 
