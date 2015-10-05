@@ -16,13 +16,13 @@ use MIM\interfaces\Destination;
 class Db implements Destination{
 
     private $table;
-    private $columns;
+    private $columnMap;
     private $connection;
 
-    public function __construct(DbConnection $connection, $table, array $columns)
+    public function __construct(DbConnection $connection, $table, array $columnMap)
     {
         $this->table = $table;
-        $this->columns = $columns;
+        $this->columnMap = $columnMap;
         $this->connection = $connection;
     }
 
@@ -35,7 +35,8 @@ class Db implements Destination{
         $setStrings = [];
         foreach($data as $key => $value) {
             $value = $this->escapeValue($value);
-            $setStrings[] = "$key=$value";
+            $column = $this->columnMap[$key];
+            $setStrings[] = "$column=$value";
         }
         $setString = join(", ", $setStrings);
         $insertSql = "insert into {$this->table} set $setString";
