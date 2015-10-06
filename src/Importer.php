@@ -19,7 +19,8 @@ use MIM\traits\ErrorsTrait;
 
 class Importer implements Import{
 
-    use ErrorsTrait
+    use ErrorsTrait;
+
     private $source;
     private $destination;
     private $offsetModel;
