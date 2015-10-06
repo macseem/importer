@@ -81,6 +81,7 @@ class Importer implements Import{
         if($count <=0) {
             throw new InvalidParamException("Invalid count", 550);
         }
+        $count--;
         $i=0;
         do{
             $result = $this->getDestination()->create(
