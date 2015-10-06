@@ -3,19 +3,22 @@
 namespace MIM;
 
 use MIM\interfaces\Import;
+use MIM\interfaces\models\Callback;
 use MIM\interfaces\RecursiveImport;
+use MIM\traits\ErrorsTrait;
 
 class RecursiveImporter implements RecursiveImport
 {
 
+    use ErrorsTrait;
+    
     private $importer;
     private $callable;
     private $count;
     private $delay;
-    private $errors;
 
     public function __construct( Import $importer,
-                                 $callable = null,
+                                 Callback $callable = null,
                                  $delay = null,
                                  $count = 1
     ) {
@@ -28,7 +31,7 @@ class RecursiveImporter implements RecursiveImport
 
     public function init()
     {
-        $this->errors = [];
+        $this->deleteAllErrors();
     }
     /**
      * {@inheritdoc}
@@ -36,20 +39,12 @@ class RecursiveImporter implements RecursiveImport
     public function recursiveImport()
     {
         while($this->importer->import($this->count, $this->callable)){
-            $this->errors += $this->importer->getErrors();
+            $this->addErrors($this->importer->getErrors());
 
             if($this->delay)
                 sleep($this->delay);
         }
 
-    }
-
-    /**
-     * @return \Exception[]
-     */
-    public function getErrors()
-    {
-        // TODO: Implement getErrors() method.
     }
 
     /**

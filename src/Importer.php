@@ -11,16 +11,18 @@ namespace MIM;
 
 use MIM\exceptions\ReinitException;
 use MIM\interfaces\Import;
+use MIM\interfaces\models\Callback;
 use MIM\interfaces\models\Destination;
 use MIM\interfaces\models\OffsetProvider;
 use MIM\interfaces\models\Source;
+use MIM\traits\ErrorsTrait;
 
 class Importer implements Import{
 
+    use ErrorsTrait
     private $source;
     private $destination;
     private $offsetModel;
-    private $errors;
     private $imported;
 
     private $needToReinit;
@@ -42,7 +44,7 @@ class Importer implements Import{
     public function init()
     {
         $this->imported = false;
-        $this->errors = [];
+        $this->deleteAllErrors();
         $this->getSource()->seek($this->getOffsetProvider()->get());
     }
 
@@ -61,15 +63,10 @@ class Importer implements Import{
         return $this->offsetModel;
     }
 
-    public function getErrors()
-    {
-        return $this->errors;
-    }
-
     /**
      * {@inheritdoc}
      */
-    public function import($count = 1, $callable = null)
+    public function import($count = 1, Callback $callable = null)
     {
 
         if($this->needToReinit)
@@ -80,15 +77,16 @@ class Importer implements Import{
                 $this->getSource()->next();
                 $result = $this->getDestination()->create(
                     $this->getSource()->current());
-                if(!$callable || !is_callable($callable))
+                if(!$callable)
                     continue;
-                call_user_func($callable,$result);
+                $callable->setResult($result)->call();
             } catch(\Exception $e) {
-                $this->errors[] = $e;
+                $this->addError($e);
             }
         }
         $this->getOffsetProvider()->set($this->getSource()->key());
-        $this->imported = empty($this->errors);
+        $errors =$this->getErrors();
+        $this->imported = empty($errors);
         $this->needToReinit = true;
     }
 
