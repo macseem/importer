@@ -15,17 +15,17 @@ trait ErrorsTrait {
         return $this->errors;
     }
 
-    public function addError($error)
+    protected function addError($error)
     {
         return $this->errors[] = $error;
     }
 
-    public function addErrors(array $errors)
+    protected function addErrors(array $errors)
     {
         return $this->errors += $errors;
     }
 
-    public function deleteAllErrors()
+    protected function deleteAllErrors()
     {
         return $this->errors = [];
     }

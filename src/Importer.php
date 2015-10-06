@@ -10,6 +10,8 @@ namespace MIM;
 
 
 use MIM\exceptions\ReinitException;
+use MIM\exceptions\validation\InvalidParamException;
+use MIM\exceptions\validation\InvalidSourceException;
 use MIM\interfaces\Import;
 use MIM\interfaces\models\Callback;
 use MIM\interfaces\models\Destination;
@@ -47,6 +49,10 @@ class Importer implements Import{
         $this->imported = false;
         $this->deleteAllErrors();
         $this->getSource()->seek($this->getOffsetProvider()->get());
+        if(!$this->getSource()->valid()){
+            throw new InvalidSourceException(
+                "Your source iterator is invalid. Maybe you've already imported your data?", 550);
+        }
     }
 
     public function getSource()
@@ -72,19 +78,19 @@ class Importer implements Import{
 
         if($this->needToReinit)
             throw new ReinitException("I have old data. I need to reinit", 550);
-
-        for($i = 0; $i < $count; $i++){
-            try{
-                $this->getSource()->next();
-                $result = $this->getDestination()->create(
-                    $this->getSource()->current());
-                if(!$callable)
-                    continue;
-                $callable->setResult($result)->call();
-            } catch(\Exception $e) {
-                $this->addError($e);
-            }
+        if($count <=0) {
+            throw new InvalidParamException("Invalid count", 550);
         }
+        $i=0;
+        do{
+            $result = $this->getDestination()->create(
+                $this->getSource()->current());
+            $this->getSource()->next();
+            if(!$callable)
+                continue;
+            $callable->setResult($result)->call();
+        } while($i++<$count);
+
         $this->getOffsetProvider()->set($this->getSource()->key());
         $errors =$this->getErrors();
         $this->imported = empty($errors);
