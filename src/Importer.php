@@ -24,6 +24,7 @@ class Importer implements Import{
     private $destination;
     private $offsetModel;
     private $imported;
+    private $delay;
 
     /**
      * @param Source $source
@@ -84,7 +85,7 @@ class Importer implements Import{
                 if(!$callable)
                     continue;
                 $callable->setResult($result)->call();
-            } while($i++<$count && $this->getSource()->valid());
+            } while($this->getSource()->valid() && $count < 0 || $i++<$count );
         } catch(\Exception $e) {
             $this->getOffsetProvider()->set($this->getSource()->key());
             throw $e;
