@@ -17,51 +17,46 @@ use MIM\interfaces\models\Callback;
 use MIM\interfaces\models\Destination;
 use MIM\interfaces\models\OffsetProvider;
 use MIM\interfaces\models\Source;
+use MIM\traits\GetterTrait;
 use MIM\traits\ProgressTrait;
 
+/**
+ * Class Importer
+ * @package MIM
+ * @property Source $source
+ * @property Destination $destination
+ * @property OffsetProvider $offsetProvider
+ */
 class Importer implements Import{
 
     use ProgressTrait;
+    use GetterTrait;
 
     private $source;
     private $destination;
-    private $offsetModel;
+    private $offsetProvider;
 
     /**
      * @param Source $source
      * @param Destination $destination
-     * @param OffsetProvider $offsetModel
+     * @param OffsetProvider $offsetProvider
      */
-    public function __construct(Source $source, Destination $destination, OffsetProvider $offsetModel)
+    public function __construct(Source $source, Destination $destination, OffsetProvider $offsetProvider)
     {
         $this->source = $source;
         $this->destination = $destination;
-        $this->offsetModel = $offsetModel;
+        $this->offsetProvider = $offsetProvider;
         $this->init();
     }
 
     public function init()
     {
-        $this->getSource()->seek($this->getOffsetProvider()->get());
-        if(!$this->getSource()->valid()){
+        $this->source->seek($this->offsetProvider->get());
+        $this->resetProgress();
+        if(!$this->source->valid()){
             throw new InvalidSourceException(
                 "Your source iterator is invalid. Maybe you've already imported your data?", 550);
         }
-    }
-
-    public function getSource()
-    {
-        return $this->source;
-    }
-
-    public function getDestination()
-    {
-        return $this->destination;
-    }
-
-    public function getOffsetProvider()
-    {
-        return $this->offsetModel;
     }
 
     /**
@@ -79,20 +74,20 @@ class Importer implements Import{
         $i=0;
         try{
             do{
-                $result = $this->getDestination()->create(
-                    $this->getSource()->current());
-                $this->getSource()->next();
+                $result = $this->destination->create(
+                    $this->source->current());
+                $this->source->next();
                 if(!$callable)
                     continue;
                 $callable->setResult($result)->call();
-            } while($this->getSource()->valid() && $count < 0 || $i++<$count );
+            } while($this->source->valid() && $count < 0 || $i++<$count );
         } catch(\Exception $e) {
-            $this->getOffsetProvider()->set($this->getSource()->key());
+            $this->offsetProvider->set($this->source->key());
             $this->complete();
             throw $e;
         }
 
-        $this->getOffsetProvider()->set($this->getSource()->key());
+        $this->offsetProvider->set($this->source->key());
         $this->complete();
 
     }
