@@ -64,9 +64,11 @@ class Importer implements Import{
      */
     public function import($count = 1, Callback $callable = null)
     {
+        if($this->isStarted()){
+            throw new ReinitException(
+                "I have old data. I need to reinit. Maybe there were some errors during the last try", 550);
+        }
         $this->start();
-        if($this->isCompleted())
-            throw new ReinitException("I have old data. I need to reinit", 550);
         if( !is_integer($count)) {
             throw new InvalidParamException("Count is not integer", 550);
         }
@@ -83,13 +85,11 @@ class Importer implements Import{
             } while($this->source->valid() && $count < 0 || $i++<$count );
         } catch(\Exception $e) {
             $this->offsetProvider->set($this->source->key());
-            $this->complete();
             throw $e;
         }
 
         $this->offsetProvider->set($this->source->key());
         $this->complete();
-
     }
 
     public function isImported()
