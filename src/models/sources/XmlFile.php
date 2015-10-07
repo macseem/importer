@@ -9,6 +9,7 @@
 namespace MIM\models\sources;
 
 
+use MIM\exceptions\MIMException;
 use MIM\interfaces\models\Source;
 
 class XmlFile implements Source{
@@ -97,9 +98,12 @@ class XmlFile implements Source{
      * The position to seek to.
      * </p>
      * @return void
+     * @throws MIMException
      */
     public function seek($position)
     {
+        if($position == NULL)
+            throw new MIMException("Can't seek to a NULL position", 550);
         $this->iterator->seek($position);
     }
 }
