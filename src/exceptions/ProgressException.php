@@ -2,14 +2,14 @@
 /**
  * Created by PhpStorm.
  * User: macseem
- * Date: 9/23/15
- * Time: 12:01 AM
+ * Date: 10/7/15
+ * Time: 11:02 PM
  */
 
 namespace MIM\exceptions;
 
 
-class FileDoesNotExistException extends MIMException
+class ProgressException extends MIMException
 {
 
 }

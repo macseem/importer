@@ -9,6 +9,9 @@
 namespace MIM\exceptions\validation;
 
 
-class InvalidParamException extends \Exception{
+use MIM\exceptions\MIMException;
+
+class InvalidParamException extends MIMException
+{
 
 }

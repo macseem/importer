@@ -9,6 +9,9 @@
 namespace MIM\exceptions\validation;
 
 
-class EscapeException extends \Exception {
+use MIM\exceptions\MIMException;
+
+class EscapeException extends MIMException
+{
 
 }

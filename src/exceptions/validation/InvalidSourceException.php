@@ -9,6 +9,9 @@
 namespace MIM\exceptions\validation;
 
 
-class InvalidSourceException extends \Exception{
+use MIM\exceptions\MIMException;
+
+class InvalidSourceException extends MIMException
+{
 
 }

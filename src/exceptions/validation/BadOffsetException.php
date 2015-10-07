@@ -9,6 +9,9 @@
 namespace MIM\exceptions\validation;
 
 
-class BadOffsetException extends \Exception {
+use MIM\exceptions\MIMException;
+
+class BadOffsetException extends MIMException
+{
 
 }
