@@ -8,10 +8,11 @@
 
 namespace MIM\interfaces\models;
 
-
-use MIM\interfaces\base\GetErrors;
-
-interface Callback extends GetErrors{
+/**
+ * Interface Callback
+ * @package MIM\interfaces\models
+ */
+interface Callback {
 
     /**
      * @return mixed

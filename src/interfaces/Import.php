@@ -2,12 +2,11 @@
 
 namespace MIM\interfaces;
 
-use MIM\interfaces\base\GetErrors;
 use MIM\interfaces\base\IsImported;
 use MIM\interfaces\base\Init;
 use MIM\interfaces\models\Callback;
 
-interface Import extends GetErrors, IsImported, Init {
+interface Import extends IsImported, Init {
 
     /**
      * @param int $count

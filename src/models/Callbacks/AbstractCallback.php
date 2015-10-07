@@ -10,11 +10,8 @@ namespace MIM\models\Callbacks;
 
 
 use MIM\interfaces\models\Callback;
-use MIM\traits\ErrorsTrait;
 
 abstract class AbstractCallback implements Callback{
-
-    use ErrorsTrait;
 
     private $result;
 

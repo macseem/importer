@@ -17,18 +17,13 @@ use MIM\interfaces\models\Callback;
 use MIM\interfaces\models\Destination;
 use MIM\interfaces\models\OffsetProvider;
 use MIM\interfaces\models\Source;
-use MIM\traits\ErrorsTrait;
 
 class Importer implements Import{
-
-    use ErrorsTrait;
 
     private $source;
     private $destination;
     private $offsetModel;
     private $imported;
-
-    private $needToReinit;
 
     /**
      * @param Source $source
@@ -37,17 +32,16 @@ class Importer implements Import{
      */
     public function __construct(Source $source, Destination $destination, OffsetProvider $offsetModel)
     {
+        $this->imported = false;
         $this->source = $source;
         $this->destination = $destination;
         $this->offsetModel = $offsetModel;
         $this->init();
-        $this->needToReinit = false;
     }
 
     public function init()
     {
         $this->imported = false;
-        $this->deleteAllErrors();
         $this->getSource()->seek($this->getOffsetProvider()->get());
         if(!$this->getSource()->valid()){
             throw new InvalidSourceException(
@@ -75,27 +69,29 @@ class Importer implements Import{
      */
     public function import($count = 1, Callback $callable = null)
     {
-
-        if($this->needToReinit)
+        if($this->imported)
             throw new ReinitException("I have old data. I need to reinit", 550);
         if($count <=0) {
             throw new InvalidParamException("Invalid count", 550);
         }
         $count--;
         $i=0;
-        do{
-            $result = $this->getDestination()->create(
-                $this->getSource()->current());
-            $this->getSource()->next();
-            if(!$callable)
-                continue;
-            $callable->setResult($result)->call();
-        } while($i++<$count);
+        try{
+            do{
+                $result = $this->getDestination()->create(
+                    $this->getSource()->current());
+                $this->getSource()->next();
+                if(!$callable)
+                    continue;
+                $callable->setResult($result)->call();
+            } while($i++<$count && $this->getSource()->valid());
+        } catch(\Exception $e) {
+            $this->getOffsetProvider()->set($this->getSource()->key());
+            throw $e;
+        }
 
         $this->getOffsetProvider()->set($this->getSource()->key());
-        $errors =$this->getErrors();
-        $this->imported = empty($errors);
-        $this->needToReinit = true;
+        $this->imported = true;
     }
 
     public function isImported()

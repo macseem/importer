@@ -5,13 +5,10 @@ namespace MIM;
 use MIM\interfaces\Import;
 use MIM\interfaces\models\Callback;
 use MIM\interfaces\RecursiveImport;
-use MIM\traits\ErrorsTrait;
 
 class RecursiveImporter implements RecursiveImport
 {
 
-    use ErrorsTrait;
-    
     private $importer;
     private $callable;
     private $count;
@@ -31,7 +28,6 @@ class RecursiveImporter implements RecursiveImport
 
     public function init()
     {
-        $this->deleteAllErrors();
     }
     /**
      * {@inheritdoc}
@@ -39,12 +35,9 @@ class RecursiveImporter implements RecursiveImport
     public function recursiveImport()
     {
         while($this->importer->import($this->count, $this->callable)){
-            $this->addErrors($this->importer->getErrors());
-
             if($this->delay)
                 sleep($this->delay);
         }
-
     }
 
     /**
