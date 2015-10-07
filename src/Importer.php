@@ -26,7 +26,6 @@ class Importer implements Import{
     private $source;
     private $destination;
     private $offsetModel;
-    private $imported;
 
     /**
      * @param Source $source
@@ -35,7 +34,6 @@ class Importer implements Import{
      */
     public function __construct(Source $source, Destination $destination, OffsetProvider $offsetModel)
     {
-        $this->imported = false;
         $this->source = $source;
         $this->destination = $destination;
         $this->offsetModel = $offsetModel;
@@ -44,7 +42,6 @@ class Importer implements Import{
 
     public function init()
     {
-        $this->imported = false;
         $this->getSource()->seek($this->getOffsetProvider()->get());
         if(!$this->getSource()->valid()){
             throw new InvalidSourceException(
@@ -96,13 +93,12 @@ class Importer implements Import{
         }
 
         $this->getOffsetProvider()->set($this->getSource()->key());
-        $this->imported = true;
         $this->complete();
 
     }
 
     public function isImported()
     {
-        return $this->imported;
+        return $this->isCompleted();
     }
 }
