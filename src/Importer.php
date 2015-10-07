@@ -17,14 +17,16 @@ use MIM\interfaces\models\Callback;
 use MIM\interfaces\models\Destination;
 use MIM\interfaces\models\OffsetProvider;
 use MIM\interfaces\models\Source;
+use MIM\traits\ProgressTrait;
 
 class Importer implements Import{
+
+    use ProgressTrait;
 
     private $source;
     private $destination;
     private $offsetModel;
     private $imported;
-    private $delay;
 
     /**
      * @param Source $source
@@ -70,10 +72,11 @@ class Importer implements Import{
      */
     public function import($count = 1, Callback $callable = null)
     {
-        if($this->imported)
+        $this->start();
+        if($this->isCompleted())
             throw new ReinitException("I have old data. I need to reinit", 550);
-        if($count <=0) {
-            throw new InvalidParamException("Invalid count", 550);
+        if( !is_integer($count)) {
+            throw new InvalidParamException("Count is not integer", 550);
         }
         $count--;
         $i=0;
@@ -88,11 +91,14 @@ class Importer implements Import{
             } while($this->getSource()->valid() && $count < 0 || $i++<$count );
         } catch(\Exception $e) {
             $this->getOffsetProvider()->set($this->getSource()->key());
+            $this->complete();
             throw $e;
         }
 
         $this->getOffsetProvider()->set($this->getSource()->key());
         $this->imported = true;
+        $this->complete();
+
     }
 
     public function isImported()
